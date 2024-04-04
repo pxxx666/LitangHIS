@@ -7,6 +7,8 @@ const registerData = ref({
   password: '',
   rePassword: ''
 })
+//登录角色类型
+const role = ref('患者')
 //自定义确认密码的校验函数
 const rePasswordValid = (rule, value, callback) => {
   if (value == null || value === '') {
@@ -90,10 +92,11 @@ const clearRegisterData = () => {
                     v-model="registerData.password"></el-input>
         </el-form-item>
         <el-form-item class="flex">
-          <div class="flex">
-            <el-checkbox>记住我</el-checkbox>
-            <el-link type="primary" :underline="false">忘记密码？</el-link>
-          </div>
+          <el-radio-group v-model="role" size="large">
+            <el-radio-button label="患者" value="患者" />
+            <el-radio-button label="医生" value="医生" />
+            <el-radio-button label="管理员" value="管理员" />
+          </el-radio-group>
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item>
@@ -116,7 +119,7 @@ img{
   z-index: 100;
   width: 600px;
   right: 75px;
-  top: 30px;
+  top: 100px;
 }
 .login-page {
   height: 100vh;
