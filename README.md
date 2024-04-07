@@ -1,29 +1,30 @@
-# vue-elementPlus
+# 医院挂号管理系统
 
-This template should help get you started developing with Vue 3 in Vite.
+## 1.角色
 
-## Recommended IDE Setup
+**管理员**：
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+科室信息管理，医生排班信息管理，预约挂号管理，患者挂号管理，患者就诊管理，系统公告管理，用户信息管理，用户修改密码，用户修改头像，查看所有用户信息
 
-## Customize configuration
+**医生**：
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+查看我的排班信息，患者挂号信息，患者叫号，用户信息管理，用户修改密码，用户修改头像
 
-## Project Setup
+**患者**：
 
-```sh
-npm install
-```
+查看当天医生，预约挂号，取消挂号，我的挂号，充值功能，用户信息管理，用户修改密码，用户修改头像
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
 
-### Compile and Minify for Production
+## 2.技术栈
 
-```sh
-npm run build
-```
+**前端：** Vue3,ElementuiPlus,nodejs,Axios,Echarts等
+
+**后端：** SpringBoot,Mybaits,JWT等
+
+**数据库：** MySQL8.0
+
+**开发工具：** idea，webstorm
+
+
+
