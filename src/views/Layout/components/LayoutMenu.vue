@@ -6,7 +6,10 @@ import {CreditCard, Histogram, HomeFilled, Pointer, UserFilled} from "@element-p
 <template>
   <el-menu style="overflow: hidden;" active-text-color="#604f4f" background-color="#95c194" text-color="white"
            class="el-menu-vertical-demo" router>
-    <h1 style="margin:20px;font-weight: normal;color: white;">菜单</h1>
+    <div>
+      <h1 style="margin:20px;font-weight: normal;color: white;">菜单</h1>
+    </div>
+
     <el-sub-menu index="/">
       <template #title>
         <el-icon>
