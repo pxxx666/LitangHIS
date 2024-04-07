@@ -1,3 +1,19 @@
+<script setup>
+import {
+  ArrowRight, CaretBottom, Crop, EditPen, SwitchButton, User
+} from '@element-plus/icons-vue'
+import LayoutMenu from "@/views/Layout/components/LayoutMenu.vue";
+import {onMounted} from "vue";
+import { useUserInfoStore } from '@/stores/useInfo.js'
+import { userInfoService } from '@/apis/user.js'
+const userInfoStore = useUserInfoStore()
+const getUserInfo = async () => {
+  let result = await userInfoService()
+  userInfoStore.info = result.data;
+}
+onMounted(getUserInfo)
+
+</script>
 <template>
   <div class="common-layout">
     <el-container>
@@ -36,12 +52,7 @@
   </div>
 </template>
 
-<script setup>
-import {
-  ArrowRight, CaretBottom, Crop, EditPen, SwitchButton, User
-} from '@element-plus/icons-vue'
-import LayoutMenu from "@/views/Layout/components/LayoutMenu.vue";
-</script>
+
 <style lang="scss">
 * {
   margin: 0;
