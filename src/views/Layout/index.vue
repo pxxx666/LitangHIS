@@ -6,12 +6,47 @@ import LayoutMenu from "@/views/Layout/components/LayoutMenu.vue";
 import {onMounted} from "vue";
 import { useUserInfoStore } from '@/stores/useInfo.js'
 import { userInfoService } from '@/apis/user.js'
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useTokenStore} from  '@/stores/token.js';
+import {useRouter}from "vue-router";
+const router = useRouter()
 const userInfoStore = useUserInfoStore()
+const tokenStore = useTokenStore()
 const getUserInfo = async () => {
   let result = await userInfoService()
   userInfoStore.info = result.data;
 }
 onMounted(getUserInfo)
+const handleCommand = (command) => {
+  if (command === 'logout') {
+    ElMessageBox.confirm(
+        '您确定要退出登陆吗?',
+        '温馨提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+    ).then(() => {
+          ElMessage({
+            type: 'success',
+            message: '退出登录成功',
+          })
+          tokenStore.removeToken()
+          userInfoStore.removeInfo()
+          //跳转到登录页
+          router.push('/login')
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'info',
+            message: '取消退出登录',
+          })
+        })
+  } else {
+    router.push("/user/" + command)
+  }
+}
 
 </script>
 <template>
@@ -27,7 +62,7 @@ onMounted(getUserInfo)
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
           </el-breadcrumb>
-          <el-dropdown placement="bottom-end">
+          <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                         <el-avatar />
                         <el-icon>
@@ -37,7 +72,6 @@ onMounted(getUserInfo)
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
-                <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
                 <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
                 <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
               </el-dropdown-menu>

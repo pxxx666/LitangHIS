@@ -134,7 +134,7 @@ const login = async () => {
                     v-model="registerData.username"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input name="password" :prefix-icon="Lock" type="password" placeholder="请输入密码"
+          <el-input name="password" :prefix-icon="Lock" type="password" placeholder="请输入密码" show-password
                     v-model="registerData.password"></el-input>
         </el-form-item>
 

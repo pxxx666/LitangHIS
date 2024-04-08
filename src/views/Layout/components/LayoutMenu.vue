@@ -18,8 +18,8 @@ import {CreditCard, Histogram, HomeFilled, Pointer, UserFilled} from "@element-p
         <span>用户管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/userInfo">更改个人信息</el-menu-item>
-        <el-menu-item index="/userAtavar">更换头像</el-menu-item>
+        <el-menu-item index="/user/profile">更改个人信息</el-menu-item>
+        <el-menu-item index="/user/password">更换密码</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
     <el-menu-item index="/recharge">
