@@ -26,13 +26,21 @@ import router from '@/router';
 instance.interceptors.response.use(
     result => {
         if (result.data.code !== 0) {
-            ElMessage.error(result.data.message ? result.data.message : "服务异常");
+            ElMessage({
+                message: result.data.message ? result.data.message : "服务异常",
+                type: 'error',
+                plain: true,
+            })
         }
         return result.data
     },
     err => {
         if (err.response && err.response.status === 401) {
-            ElMessage.error('请先登录！');
+            ElMessage({
+                message: '请重新登录',
+                type: 'error',
+                plain:true
+            })
             // 路由跳转到登录页
             router.push('/login')
         } else {

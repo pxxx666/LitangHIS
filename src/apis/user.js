@@ -18,3 +18,13 @@ export const userLoginService = (loginData) => {
 export const userInfoService = () => {
     return request.get('/user/userInfo')
 }
+
+//更新用户密码
+export const userUpdatePasswordService = (passwordData) => {
+    return request.patch('/user/updatePwd', passwordData)
+}
+
+//更换用户基本信息
+export const userUpdateInfoService = (infoData) => {
+    return request.put('/user/update', infoData)
+}

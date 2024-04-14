@@ -16,6 +16,7 @@ const getUserInfo = async () => {
   let result = await userInfoService()
   userInfoStore.info = result.data;
 }
+const defaultAvatar = "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
 onMounted(getUserInfo)
 const handleCommand = (command) => {
   if (command === 'logout') {
@@ -64,8 +65,9 @@ const handleCommand = (command) => {
           </el-breadcrumb>
           <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
-                        <el-avatar />
-                        <el-icon>
+                      <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : defaultAvatar"></el-avatar>
+                      <span style="margin-left: 20px"><b>{{userInfoStore.info.username}}</b></span>
+                      <el-icon>
                             <CaretBottom />
                         </el-icon>
                     </span>
