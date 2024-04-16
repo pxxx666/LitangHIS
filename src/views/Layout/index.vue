@@ -54,7 +54,7 @@ const handleCommand = (command) => {
   <div class="common-layout">
     <el-container>
       <el-aside width="200px">
-        <LayoutMenu></LayoutMenu>
+        <LayoutMenu :type="userInfoStore.info.type"></LayoutMenu>
       </el-aside>
       <el-container>
         <el-header id="header">

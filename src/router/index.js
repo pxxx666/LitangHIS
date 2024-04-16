@@ -7,6 +7,9 @@ import UserPassword from '@/views/User/Password/index.vue'
 import Echarts from '@/views/Echarts/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Login from '@/views/Login/index.vue'
+import DoctorLog from '@/views/Doctor/Log/index.vue'
+import DoctorProfile from '@/views/Doctor/Profile/index.vue'
+import Department from '@/views/Department/index.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -40,8 +43,20 @@ const router = createRouter({
                     component: UserPassword
                 },
                 {
+                  path:'/doctor/log',
+                  component: DoctorLog
+                },
+                {
+                  path:'/doctor/profile',
+                  component:DoctorProfile
+                },
+                {
                     path: '/echarts',
                     component: Echarts
+                },
+                {
+                    path:'/department',
+                    component:Department
                 }
             ]
         }

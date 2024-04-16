@@ -28,3 +28,8 @@ export const userUpdatePasswordService = (passwordData) => {
 export const userUpdateInfoService = (infoData) => {
     return request.put('/user/update', infoData)
 }
+
+//改变医生录入状态
+export const userChangeStatusService = (id) => {
+    return request.patch('/user/updateStatus?id='+id)
+}

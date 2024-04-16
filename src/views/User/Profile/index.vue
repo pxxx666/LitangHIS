@@ -74,6 +74,7 @@ const uploadSuccess = (url) => {
           </div>
         </template>
         <el-row>
+          <el-alert v-if="userInfo.type==='医生'" title="成为正式医生前务必填好真实姓名以便管理员录入信息！" type="warning" style="margin-bottom: 20px"/>
           <el-col :span="20" :offset="1">
             <el-form :model="userInfo" :rules="rules" label-width="100px" size="large">
               <el-form-item label="用户名">
