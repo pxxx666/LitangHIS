@@ -43,8 +43,9 @@ instance.interceptors.response.use(
             })
             // 路由跳转到登录页
             router.push('/login')
-        } else if(err.response && err.response.status === 404){
+        } else if(err.response && err.response.status === 403){
           ElMessage.error('您没有权限！')
+            router.push('/403')
         } else {
             ElMessage.error('服务异常！');
         }

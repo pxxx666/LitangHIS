@@ -10,6 +10,7 @@ import Login from '@/views/Login/index.vue'
 import DoctorLog from '@/views/Doctor/Log/index.vue'
 import DoctorProfile from '@/views/Doctor/Profile/index.vue'
 import Department from '@/views/Department/index.vue'
+import Error from '@/views/403/index.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -57,6 +58,10 @@ const router = createRouter({
                 {
                     path:'/department',
                     component:Department
+                },
+                {
+                    path:'/403',
+                    component:Error
                 }
             ]
         }
