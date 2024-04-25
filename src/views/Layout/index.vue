@@ -59,10 +59,6 @@ const handleCommand = (command) => {
       <el-container>
         <el-header id="header">
           <img class="animate__animated animate__bounceInDown" src="@/assets/images/HISTitle.png" alt="title">
-          <el-breadcrumb :separator-icon="ArrowRight">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-          </el-breadcrumb>
           <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                       <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : defaultAvatar"></el-avatar>

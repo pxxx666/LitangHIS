@@ -1,72 +1,59 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Appoint from '@/views/Appoint/index.vue'
-import Recharge from '@/views/Recharge/index.vue'
-import Hospital from '@/views/Hospital/index.vue'
-import UserProfile from '@/views/User/Profile/index.vue'
-import UserPassword from '@/views/User/Password/index.vue'
-import Echarts from '@/views/Echarts/index.vue'
-import Layout from '@/views/Layout/index.vue'
-import Login from '@/views/Login/index.vue'
-import DoctorLog from '@/views/Doctor/Log/index.vue'
-import DoctorProfile from '@/views/Doctor/Profile/index.vue'
-import Department from '@/views/Department/index.vue'
-import Error from '@/views/403/index.vue'
-import MyAppointment from '@/views/MyAppointment/index.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path:'/login',
-            component:Login
+            component:()=>import('@/views/Login/index.vue')
         },
         {
             path:'/',
-            component:Layout,
+            component:()=>import('@/views/Layout/index.vue'),
             redirect:'/echarts',
             children:[
                 {
                     path: '/appoint',
-                    component: Appoint
+                    component: ()=>import('@/views/Appoint/index.vue')
                 },
                 {
                     path:'/myAppointment',
-                    component:MyAppointment
+                    component:()=>import('@/views/MyAppointment/index.vue')
                 },
                 {
                     path: '/hospital',
-                    component: Hospital
+                    component: ()=>import('@/views/Hospital/index.vue')
                 },
                 {
                     path: '/recharge',
-                    component: Recharge
+                    component: ()=>import('@/views/Recharge/index.vue')
                 },
                 {
                     path: '/user/profile',
-                    component: UserProfile
+                    component: ()=>import('@/views/User/Profile/index.vue')
                 },
                 {
                     path: '/user/password',
-                    component: UserPassword
+                    component: ()=>import('@/views/User/Password/index.vue')
                 },
                 {
                   path:'/doctor/log',
-                  component: DoctorLog
+                  component: ()=>import('@/views/Doctor/Log/index.vue')
                 },
                 {
                   path:'/doctor/profile',
-                  component:DoctorProfile
+                  component:()=>import('@/views/Doctor/Profile/index.vue')
                 },
                 {
                     path: '/echarts',
-                    component: Echarts
+                    component: ()=>import('@/views/Echarts/index.vue')
                 },
                 {
                     path:'/department',
-                    component:Department
+                    component:()=>import('@/views/Department/index.vue')
                 },
                 {
                     path:'/403',
-                    component:Error
+                    component:()=>import('@/views/403/index.vue')
                 }
             ]
         }
