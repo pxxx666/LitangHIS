@@ -4,6 +4,11 @@ import {doctorListService,addDoctorService} from "@/apis/doctor.js"
 import {departmentListService} from '@/apis/department.js'
 import {userChangeStatusService} from '@/apis/user.js'
 import {ElMessage} from "element-plus";
+import {useUserInfoStore} from '@/stores/useInfo.js'
+import {useRouter} from "vue-router";
+const router = useRouter()
+const userInfoStore = useUserInfoStore()
+const userInfo = userInfoStore.info
 //分页条数据模型
 const pageNum = ref(1)//当前页
 const total = ref(20)//总条数
@@ -115,15 +120,20 @@ const submit = async () => {
 
 }
 onMounted(() =>{
-  getDoctorList()
-  getDepartmentList()
+  if(userInfo.type !== '管理员'){
+    router.push('/403')
+  }else {
+    getDoctorList()
+    getDepartmentList()
+  }
+
 
 })
 
 </script>
 
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container  animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>医生信息管理</span>

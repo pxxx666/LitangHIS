@@ -3,6 +3,11 @@ import {ref,onMounted} from "vue";
 import {Delete, Edit} from "@element-plus/icons-vue";
 import {departmentListService,departmentDetailService,removeDepartmentService,addDepartmentService,updateDepartmentService} from '@/apis/department.js'
 import {ElMessage,ElMessageBox} from "element-plus";
+import {useUserInfoStore} from '@/stores/useInfo.js'
+import {useRouter} from "vue-router";
+const router = useRouter()
+const userInfoStore = useUserInfoStore()
+const userInfo = userInfoStore.info
 //弹窗
 let dialogFormVisible = ref(false)
 const departmentList = ref([])
@@ -89,14 +94,19 @@ const deleteDepartment = async (row) => {
 }
 
 onMounted(()=>{
-  getDepartmentList()
+  if(userInfo.type !== '管理员'){
+    router.push('403')
+  }else {
+    getDepartmentList()
+
+  }
 })
 
 
 </script>
 
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container  animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>科室信息管理</span>

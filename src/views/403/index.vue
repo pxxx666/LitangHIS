@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container  animate__animated animate__bounceInUp">
     <img src="@/assets/images/403.png" alt="403">
     <div class="content">
       <h1>403</h1>

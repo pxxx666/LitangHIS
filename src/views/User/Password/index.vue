@@ -61,7 +61,7 @@
   }
 </script>
 <template>
-  <el-card>
+  <el-card class=" animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>重置密码</span>

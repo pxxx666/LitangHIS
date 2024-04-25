@@ -58,7 +58,7 @@ const handleCommand = (command) => {
       </el-aside>
       <el-container>
         <el-header id="header">
-          <img src="@/assets/images/HISTitle.png" alt="title">
+          <img class="animate__animated animate__bounceInDown" src="@/assets/images/HISTitle.png" alt="title">
           <el-breadcrumb :separator-icon="ArrowRight">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>

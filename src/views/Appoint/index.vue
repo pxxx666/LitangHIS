@@ -1,29 +1,46 @@
 <script setup>
-import {
-  Edit,
-  Delete
-} from '@element-plus/icons-vue'
-
-import { ref } from 'vue'
+import { ref,onMounted,provide} from 'vue'
 import MyCard from "@/components/MyCard.vue";
+import {getListAllService} from '@/apis/doctor.js'
+import {departmentListService} from '@/apis/department.js'
+import {getTodayWeekday} from '@/utils/today.js'
+import {useUserInfoStore} from "@/stores/useInfo.js";
+const userInfoStore = useUserInfoStore()
+const userInfo = userInfoStore.info
+let doctorList = ref([])
+let departmentList = ref([])
+let renderDoctorList = ref([])
+let selectedDepartment = ref('')
+let today = getTodayWeekday()
 
 
-//分页条数据模型
-const pageNum = ref(1)//当前页
-const total = ref(20)//总条数
-const pageSize = ref(3)//每页条数
-
-//当每页条数发生了变化，调用此函数
-const onSizeChange = (size) => {
-  pageSize.value = size
+const getDoctorList = async () => {
+  let {data}  = await  getListAllService()
+  doctorList.value = data.filter(item=>item.schedule.includes(today))
+  renderDoctorList.value = doctorList.value
 }
-//当前页码发生变化，调用此函数
-const onCurrentChange = (num) => {
-  pageNum.value = num
+const getDepartmentList = async () => {
+  let {data} = await departmentListService()
+  departmentList.value = data
 }
+
+const reset = () => {
+  getDoctorList()
+  selectedDepartment.value = ''
+}
+
+const search = () => {
+  renderDoctorList.value = doctorList.value.filter(item=>item.department === selectedDepartment.value)
+}
+
+
+onMounted(()=>{
+  getDoctorList()
+  getDepartmentList()
+})
 </script>
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>预约医生</span>
@@ -32,31 +49,20 @@ const onCurrentChange = (num) => {
     <!-- 搜索表单 -->
     <el-form inline>
       <el-form-item label="科室：">
-        <el-select placeholder="请选择">
-          <el-option label="妇产科" value="妇产科"></el-option>
-          <el-option label="心内科" value="心内科"></el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="职位：">
-        <el-select placeholder="请选择">
-          <el-option label="名医专家" value="名医专家"></el-option>
-          <el-option label="主任医生" value="主任医生"></el-option>
-          <el-option label="副主任医生" value="副主任医生"></el-option>
-          <el-option label="主治医生" value="主治医师"></el-option>
-
+        <el-select placeholder="请选择" v-model="selectedDepartment">
+          <el-option v-for="item in departmentList" :label="item.name" :value="item.name"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">搜索</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="search" type="primary">搜索</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
 
 
     <!-- 表格 -->
     <el-container>
-      <my-card v-for="i in 25"></my-card>
+      <my-card v-for="item in renderDoctorList" :info="item"></my-card>
     </el-container>
 
 

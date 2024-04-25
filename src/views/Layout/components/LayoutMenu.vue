@@ -7,12 +7,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <el-menu style="overflow: hidden;" active-text-color="#604f4f" background-color="#95c194" text-color="white"
+  <el-menu style="overflow: hidden;" active-text-color="#ffffff"
            class="el-menu-vertical-demo" router>
     <div>
-      <h1 v-if="props.type==='管理员'" style="margin:20px;font-weight: normal;color: white;">管理员菜单</h1>
-      <h1 v-else-if="props.type==='医生'" style="margin:20px;font-weight: normal;color: white;">医生菜单</h1>
-      <h1 v-else style="margin:20px;font-weight: normal;color: white;">患者菜单</h1>
+      <h1 v-if="props.type==='管理员'" class="animate__animated animate__shakeY" style="margin:20px;font-weight: normal;color: black;">管理员菜单</h1>
+      <h1 v-else-if="props.type==='医生'" class="animate__animated animate__shakeY" style="margin:20px;font-weight: normal;color:black;">医生菜单</h1>
+      <h1 v-else class="animate__animated animate__shakeY" style="margin:20px;font-weight: normal;color: black;">患者菜单</h1>
 
     </div>
 
@@ -28,7 +28,7 @@ const props = defineProps({
         <el-menu-item index="/user/password">更换密码</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
-    <el-sub-menu index="/doctor" v-if="props.type==='管理员'">
+    <el-sub-menu index="/doctor" >
       <template #title>
         <el-icon>
           <FirstAidKit />
@@ -36,7 +36,7 @@ const props = defineProps({
         <span>医生管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/doctor/log">医生录入管理</el-menu-item>
+        <el-menu-item index="/doctor/log" v-if="props.type==='管理员'">医生录入管理</el-menu-item>
         <el-menu-item index="/doctor/profile">医生信息管理</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
@@ -52,12 +52,19 @@ const props = defineProps({
       </el-icon>
       <span>充值服务</span>
     </el-menu-item>
-    <el-menu-item index="/appoint">
-      <el-icon>
-        <Pointer />
-      </el-icon>
-      <span>预约医生</span>
-    </el-menu-item>
+    <el-sub-menu index="/" >
+      <template #title>
+        <el-icon>
+          <Pointer />
+        </el-icon>
+        <span>挂号管理</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/appoint">预约医生</el-menu-item>
+        <el-menu-item index="/myAppointment">我的挂号</el-menu-item>
+      </el-menu-item-group>
+    </el-sub-menu>
+
     <el-menu-item index="/hospital">
       <el-icon>
         <HomeFilled />
@@ -76,5 +83,9 @@ const props = defineProps({
 <style scoped>
 .el-menu{
   height: 100%;
+}
+.el-menu-item.is-active {
+  background-color: #95c194 !important;
+  border-radius: 5px;
 }
 </style>

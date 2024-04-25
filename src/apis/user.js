@@ -29,7 +29,21 @@ export const userUpdateInfoService = (infoData) => {
     return request.put('/user/update', infoData)
 }
 
-//改变医生录入状态
+//改变医生录入为2状态（已录入）
 export const userChangeStatusService = (id) => {
     return request.patch('/user/updateStatus?id='+id)
+}
+//改变医生录入为1状态（待录入）
+export const userChangeStatus1Service = (id) => {
+    return request.patch('/user/updateStatus1?id='+id)
+}
+//改变医生录入为3状态（已删除）
+export const userChangeStatus3Service = (id) => {
+
+    return request.patch('/user/updateStatus3?id='+id)
+}
+
+//充值金额
+export const rechargeService = (id,balance) => {
+    return request.put('/user/recharge?id='+id+'&balance='+balance)
 }

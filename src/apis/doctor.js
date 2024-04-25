@@ -8,6 +8,15 @@ export const addDoctorService = (data) => {
 }
 
 export const doctorListByPageService = (params)=>{
-    console.log(params)
     return request.get('/doctor/page',{params:params})
+}
+export const updateDoctorService = (data)=>{
+    return request.put("/doctor",data)
+}
+
+export const deleteDoctorService = (doctorId)=>{
+    return request.delete("/doctor?doctorId="+doctorId)
+}
+export const getListAllService = ()=>{
+    return request.get("/doctor")
 }

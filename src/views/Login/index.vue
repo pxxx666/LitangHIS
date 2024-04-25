@@ -167,7 +167,7 @@ img{
 
   .bg {
     background:
-    url('@/assets/images/Login.jpg') no-repeat center / cover;
+    url('@/assets/images/Login.png') no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }
 

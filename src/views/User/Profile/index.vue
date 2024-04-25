@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { useUserInfoStore } from '@/stores/useInfo.js'
 import {useTokenStore} from '@/stores/token.js'
-import {userUpdateInfoService} from '@/apis/user.js'
-import { ElMessage } from 'element-plus'
+import {userUpdateInfoService, userChangeStatus1Service, userChangeStatus3Service} from '@/apis/user.js'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import {Avatar, Plus, Upload} from "@element-plus/icons-vue";
 const userInfoStore = useUserInfoStore()
 const tokenStore = useTokenStore()
@@ -37,6 +37,32 @@ const rules = {
     }
   ]
 }
+const ApplyFor = () => {
+  ElMessageBox.confirm(
+      '您确定要申请录入医生信息吗?',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info',
+      }
+  )
+      .then(async () => {
+        ElMessage({
+          type: 'success',
+          message: '申请成功,等待管理员录入',
+        })
+        await userChangeStatus1Service(userInfo.value.id)
+
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消申请',
+        })
+      })
+}
+
 const resetUserInfo = async () => {
   if(new RegExp(trueNameReg).test(userInfo.value.trueName) &&
     new RegExp(phoneReg).test(userInfo.value.phone) &&
@@ -51,7 +77,6 @@ const resetUserInfo = async () => {
 }
 
 const uploadSuccess = (url) => {
-  console.log(url)
   avatar.value = url.data;
   userInfo.value.userPic = url.data;
   userInfoStore.setInfo(userInfo.value)
@@ -60,7 +85,7 @@ const uploadSuccess = (url) => {
 
 </script>
 <template>
-  <el-card>
+  <el-card class=" animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>基本资料</span>
@@ -93,8 +118,13 @@ const uploadSuccess = (url) => {
               <el-form-item label="证件码" prop="idCard">
                 <el-input v-model="userInfo.idCard"></el-input>
               </el-form-item>
+              <el-form-item label="余额">
+                <el-input v-model="userInfo.balance" disabled style="width: 100px"></el-input>
+                <el-button type="primary" plain @click="$router.push('/recharge')">充值</el-button>
+              </el-form-item>
               <el-form-item>
                 <el-button type="primary" plain @click="resetUserInfo">提交修改</el-button>
+                <el-button type="warning" plain @click="ApplyFor" v-if="userInfo.status===3">申请录入医生信息</el-button>
               </el-form-item>
             </el-form>
           </el-col>

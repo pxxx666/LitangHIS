@@ -1,8 +1,11 @@
 <script setup>
 import {ref,onMounted,computed} from "vue";
-import {doctorListByPageService} from "@/apis/doctor.js"
+import {doctorListByPageService,updateDoctorService,deleteDoctorService} from "@/apis/doctor.js"
+import {userChangeStatus3Service} from '@/apis/user.js'
 import {departmentListService} from '@/apis/department.js'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useUserInfoStore} from '@/stores/useInfo.js'
+const userInfoStore = useUserInfoStore()
 //分页条数据模型
 const pageNum = ref(1)//当前页
 const total = ref(20)//总条数
@@ -88,13 +91,82 @@ const reset = () => {
   selectedPosition.value=''
   selectedDepartment.value=''
 }
+//删除API
+const deleteDoctor = async (id) => {
+  await deleteDoctorService(id)
+
+}
+//删除
+const deleteById = async (row) => {
+  ElMessageBox.confirm(
+      '您确定要移除该医生?',
+      'Warning',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info',
+      }
+  )
+      .then(async () => {
+        ElMessage({
+          type: 'success',
+          message: '移除成功',
+        })
+        await deleteDoctor(row.doctorId)
+        await userChangeStatus3Service(row.userId)
+        await getDoctorList()
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消移除',
+        })
+      })
+
+}
+
+//更新后的新数据
+
+const updateData = ref({})
+
 //点击修改弹出
-const update = () => {
+const update = (row) => {
   visibleDrawer.value = true
+  formData.value.department = row.department
+  formData.value.price = row.price
+  formData.value.count = row.count
+  formData.value.position = row.position
+  formData.value.schedule = JSON.parse(row.schedule)
+  formData.value.description = row.description
+  updateData.value.doctorId = row.doctorId
+
+}
+//更新api
+const updateDoctor = async (data) => {
+  let result = await updateDoctorService(data)
+  if (result.code === 0){
+    ElMessage.success('更新成功')
+  }
+}
+const submit = async () => {
+  updateData.value.department = formData.value.department
+  updateData.value.price = formData.value.price
+  updateData.value.count = formData.value.count
+  updateData.value.position = formData.value.position
+  updateData.value.schedule = JSON.stringify(formData.value.schedule)
+  updateData.value.description = formData.value.description
+  //发送更新api
+  await updateDoctor(updateData.value)
+  await getDoctorList()
+  visibleDrawer.value = false
+  //清空对象
+  for (let key in updateData.value){
+    if(updateData.value.hasOwnProperty(key)){
+      delete updateData.value[key]
+    }
+  }
 }
 const formData = ref({
-  birth:'',
-  sex:'',
   department:'',
   price:1,
   count:1,
@@ -116,6 +188,8 @@ function hasEmptyProperty(obj) {
 }
 
 
+
+
 onMounted(() =>{
   getDepartmentList()
   getDoctorList()
@@ -124,7 +198,7 @@ onMounted(() =>{
 </script>
 
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container animate__animated animate__bounceInUp">
     <template #header>
       <div class="header">
         <span>医生信息管理</span>
@@ -173,10 +247,10 @@ onMounted(() =>{
       <el-table-column label="价格" sortable prop="price"></el-table-column>
 
 
-      <el-table-column label="操作" width="200px">
+      <el-table-column label="操作" width="200px" v-if="userInfoStore.info.type==='管理员'">
         <template #default="{ row }">
-          <el-button type="warning" plain @click="update">修改</el-button>
-          <el-button type="danger" plain>移除</el-button>
+          <el-button type="warning" plain @click="update(row)">修改</el-button>
+          <el-button type="danger" plain @click="deleteById(row)">移除</el-button>
         </template>
       </el-table-column>
     </el-table>

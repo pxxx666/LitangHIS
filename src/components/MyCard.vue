@@ -1,6 +1,16 @@
 <script setup>
     import { ElMessage, ElMessageBox } from 'element-plus'
-    const open = () => {
+    import {defineProps,ref,onMounted,inject} from "vue";
+    import {useUserInfoStore} from '@/stores/useInfo.js'
+    import {rechargeService} from '@/apis/user.js'
+    import {addAppointmentService} from "@/apis/appointment.js";
+
+    const userInfoStore = useUserInfoStore()
+    const userInfo = userInfoStore.info
+    let isButtonSelected = ref(false)
+    const props = defineProps(['info'])
+
+    const appoint = () => {
         ElMessageBox.confirm(
             '您确定要预约该医生?',
             'Warning',
@@ -11,10 +21,33 @@
             }
         )
             .then(() => {
+              if(!userInfo.idCard||!userInfo.trueName||!userInfo.phone){
                 ElMessage({
-                    type: 'success',
-                    message: '预约成功',
+                    type: 'info',
+                    message: '请先完善个人信息',
                 })
+              }else if(userInfo.balance<props.info.price){
+                ElMessage({
+                  type: 'info',
+                  message: '余额不足',
+                })
+              }else{
+                ElMessage({
+                  type: 'success',
+                  message: '预约成功',
+                })
+                addAppointmentService({
+                  patient:userInfo.trueName,
+                  userId:userInfo.id,
+                  phone:userInfo.phone,
+                  doctor:props.info.trueName,
+                  department:props.info.department,
+                  price:props.info.price,
+                  status:'待叫号'
+                })
+                rechargeService(userInfo.id,userInfo.balance-props.info.price)
+                userInfo.balance -= props.info.price
+              }
             })
             .catch(() => {
                 ElMessage({
@@ -29,22 +62,28 @@
     <el-card class="card" style="max-width: 320px" shadow="hover">
         <template #header>
             <div class="card-header">
-                <span><b>妇产科：</b>马嘉祺</span>
+                <div><b>{{props.info.department}}：</b>{{props.info.trueName}}<b style="color: #95c194">({{props.info.position}})</b></div>
+
             </div>
         </template>
         <el-image
-            src="https://tse2-mm.cn.bing.net/th/id/OIP-C.2TBjtzKGnhvM0au-FHwD7AHaHa?w=201&h=201&c=7&r=0&o=5&dpr=1.5&pid=1.7"
+            :src="props.info.userPic"
             style="width: 50%;border-radius: 50%;" lazy></el-image>
-        <p><b>医生介绍：</b>阿斯达卡送监督卡萨克贷记卡就是看得见啊就开始打卡机可视对讲喀什假大空监控数据库的急啊看数据的卡就是看得见啊ask贷记卡设计大咖是看得见ask进口的数据库</p>
+        <div class="content">
+          <div><b>医生介绍：</b>{{props.info.description}}</div>
+          <div class="num"><b>挂号数量：</b>{{props.info.count}}</div>
+          <div><b>挂号价格：</b><span style="font-size: 20px">￥</span><span class="price">{{props.info.price}}</span> </div>
+        </div>
 
-        <p class="num"><b>挂号数量：</b>100</p>
+
         <template #footer><el-button id="button" size="large" style="width: 100px;" type="primary" plain
-                @click="open">预约</el-button></template>
+                @click="appoint" :disabled="isButtonSelected" v-if="userInfo.type==='患者'">预约</el-button></template>
     </el-card>
 
 </template>
 <style lang="scss">
     .card {
+
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -53,6 +92,16 @@
       .el-image {
         display: block;
         margin: 0 auto;
+      }
+      .content{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        .price{
+          color: red;
+          font-size: 20px;
+        }
       }
     }
 

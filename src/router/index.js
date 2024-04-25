@@ -11,6 +11,7 @@ import DoctorLog from '@/views/Doctor/Log/index.vue'
 import DoctorProfile from '@/views/Doctor/Profile/index.vue'
 import Department from '@/views/Department/index.vue'
 import Error from '@/views/403/index.vue'
+import MyAppointment from '@/views/MyAppointment/index.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -21,11 +22,15 @@ const router = createRouter({
         {
             path:'/',
             component:Layout,
-            redirect:'/appoint',
+            redirect:'/echarts',
             children:[
                 {
                     path: '/appoint',
                     component: Appoint
+                },
+                {
+                    path:'/myAppointment',
+                    component:MyAppointment
                 },
                 {
                     path: '/hospital',
