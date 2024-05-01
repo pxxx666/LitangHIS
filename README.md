@@ -36,19 +36,7 @@
 
 
 
-## 4.项目展示
-![show1](src/assets/showImages/show1.png)
-![show2](src/assets/showImages/show2.png)
-![show3](src/assets/showImages/show3.png)
-![show4](src/assets/showImages/show4.png)
-![show5](src/assets/showImages/show5.png)
-![show6](src/assets/showImages/show6.png)
-![show7](src/assets/showImages/show7.png)
-![show8](src/assets/showImages/show8.png)
-![show9](src/assets/showImages/show9.png)
-![show10](src/assets/showImages/show10.png)
-![show11](src/assets/showImages/show11.png)
-![show12](src/assets/showImages/show12.png)
+
 
 
 
