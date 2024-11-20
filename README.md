@@ -1,5 +1,5 @@
 # 礼堂第一人民医院管理系统
-链接：[礼堂第一人民医院]([https://www.openai.com](https://pxxx666-litanghis-2023.deno.dev))
+链接：https://pxxx666-litanghis-2023.deno.dev
 
 ## 1.项目特点
 
